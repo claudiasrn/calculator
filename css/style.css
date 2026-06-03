@@ -1,0 +1,89 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.calculator {
+    background-color: #f5e6e8;
+    height: 800px;
+    width: 500px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screen {
+    margin: 20px;
+    height: 150px;
+    width: 460px;
+    background-color: #fff8f8;
+    border-radius: 20px;
+    color: #4a2a35;
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.input-output {
+    margin: 10px;
+    font-size: 70px;
+}
+
+.main-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 500px;
+}
+
+.main-buttons div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 500px;
+}
+
+.main-buttons button {
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 50px;
+    border: 0;
+    color: #4a2a35;
+    font-size: 50px;
+    font-family: 'Nunito', sans-serif;
+}
+
+button:hover {
+    outline: 3px solid #4a2a35;
+}
+
+button.active {
+    outline: 3px solid #4a2a35;
+}
+
+.number {
+    background-color: #e8a0a0;
+}
+
+.operator {
+    background-color: #d4738a;
+}
+
+.helper-buttons {
+    display: flex;
+    width: 500px;
+    justify-content: space-evenly;
+}
+
+.helper-buttons button {
+    color: #4a2a35;
+    font-size: 60px;
+    font-family: 'Nunito', sans-serif;
+    width: 140px;
+    border: 0;
+    border-radius: 20px;
+    background-color: #c45c7a;
+}
