@@ -293,8 +293,8 @@ function normalizeSign(obj) {
 
 function roundResult(value) {
     const str = value.toString();
-    if (str.includes('.') && str.split('.')[1].length > 10) {
-        return parseFloat(value.toFixed(10));
+    if (str.includes('.') && str.split('.')[1].length > 14) {
+        return parseFloat(value.toFixed(14));
     }
     return value;
 }
