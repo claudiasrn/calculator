@@ -17,7 +17,7 @@ function add(){
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
-    a.symbol = "+";
+    normalizeSign(a);
     b.value = 0;
     b.shown = false;
     b.done = false;
@@ -31,7 +31,7 @@ function subtract(){
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
-    a.symbol = "+";
+    normalizeSign(a);
     b.value = 0;
     b.shown = false;
     b.done = false;
@@ -45,7 +45,7 @@ function multiply(){
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
-    a.symbol = "+";
+    normalizeSign(a);
     b.value = 0;
     b.shown = false;
     b.done = false;
@@ -66,16 +66,16 @@ function divide(){
         a.shown = true;
         updateFontSize();
         a.value = 0;
+        a.symbol = "+"
+        b.symbol = "+";
     } else {
         a.value = (parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value)).toFixed(2);
-        a.symbol = "+";
+        normalizeSign(a);
         b.symbol = "+";
         a.shown = false;
         updateScreen();
     }
 
-    a.symbol = "+";
-    b.symbol = "+";
     b.value = 0;
     operator = "";
 }
@@ -130,6 +130,7 @@ function updateNumber(){
                 updateScreen();
             } else if (!a.done && a.canBeOverWritten){
                 a.value = 0;
+                a.symbol = "+"
                 a.canBeOverWritten = false;
                 a.value += event.target.textContent;
                 a.shown = false;
@@ -249,5 +250,14 @@ pointBtn.addEventListener("click", (event) => {
         event.target.classList.add("active");
     }
 })
+
+function normalizeSign(obj) {
+    if (parseInt(obj.value) < 0) {
+        obj.symbol = "-";
+        obj.value = Math.abs(parseFloat(obj.value));
+    } else {
+        obj.symbol = "+";
+    }
+}
 
 updateNumber();
