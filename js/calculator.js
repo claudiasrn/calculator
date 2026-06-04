@@ -25,7 +25,7 @@ function add(){
     b.done = false;
     b.symbol = "+";
     updateScreen();
-    operator = "+";
+    operator = "";
 }
 
 function subtract(){
@@ -39,7 +39,7 @@ function subtract(){
     b.done = false;
     b.symbol = "+";
     updateScreen();
-    operator = "+";
+    operator = "";
 }
 
 function multiply(){
@@ -53,7 +53,7 @@ function multiply(){
     b.done = false;
     b.symbol = "+";
     updateScreen();
-    operator = "+";
+    operator = "";
 }
 
 function divide(){
