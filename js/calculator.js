@@ -124,6 +124,9 @@ function updateNumber(){
 
     for (const btn of digitBtns) {
         btn.addEventListener("click", (event) => {
+            if (!a.done && !a.canBeOverWritten && a.value.toString().replace('.', '').length >= 12) return;
+            if (a.done && b.value.toString().replace('.', '').length >= 12) return;
+
             if(!a.done && !a.canBeOverWritten) {
                 a.value += event.target.textContent;
                 a.shown = false;
@@ -239,12 +242,14 @@ pointBtn.addEventListener("click", (event) => {
     const screen = document.querySelector('.input-output');
     if(!event.target.classList.contains("active")) {
         if(!a.done) {
-            a.value += ".";
+            a.value = parseInt(a.value) + ".";
             screen.textContent = a.value;
+            updateFontSize();
 
         } else {
-            b.value += ".";
+            b.value = parseInt(a.value) + ".";
             screen.textContent = b.value;
+            updateFontSize();
         }
 
         event.target.classList.add("active");
