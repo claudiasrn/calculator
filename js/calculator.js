@@ -103,17 +103,20 @@ function updateScreen(){
     function formatValue(symbol, value) {
         const displayed = parseFloat(symbol + value);
         const str = value.toString();
+        const displayedStr = displayed.toString().includes('e') 
+            ? displayed.toFixed(20).replace(/\.?0+$/, '') 
+            : displayed.toString();
         if (str.includes('.')) {
             const trailingZeros = str.replace(/.*\./, '').match(/0+$/);
             const endsWithDot = str.endsWith('.');
-            if (endsWithDot) return displayed.toString() + '.';
+            if (endsWithDot) return displayedStr + '.';
             else if (trailingZeros) {
-                const hasDot = displayed.toString().includes('.');
-                return displayed.toString() + (hasDot ? '' : '.') + trailingZeros[0];
+                const hasDot = displayedStr.includes('.');
+                return displayedStr + (hasDot ? '' : '.') + trailingZeros[0];
             }
-            else return displayed.toString();
+            else return displayedStr;
         }
-        return displayed.toString();
+        return displayedStr;
     }
 
     if (!a.shown){
