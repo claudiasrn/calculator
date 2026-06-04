@@ -362,4 +362,42 @@ delBtn.addEventListener("click", () => {
     }
 });
 
+document.addEventListener("keydown", (event) => {
+    if (isCountingDown) return;
+
+    switch(event.key) {
+        case "0": case "1": case "2": case "3": case "4":
+        case "5": case "6": case "7": case "8": case "9":
+            document.querySelector(`.number:nth-child(${parseInt(event.key) + 1})`);
+            digitBtns.forEach(btn => {
+                if (btn.textContent === event.key) btn.click();
+            });
+            break;
+        case "+":
+            document.querySelector(".operator:nth-child(1)").click();
+            break;
+        case "-":
+            document.querySelectorAll(".operator")[1].click();
+            break;
+        case "*": case "x": case "X":
+            document.querySelectorAll(".operator")[3].click();
+            break;
+        case "/":
+            document.querySelectorAll(".operator")[2].click();
+            break;
+        case ".": case ",":
+            pointBtn.click();
+            break;
+        case "Enter": case "=":
+            equalBtn.click();
+            break;
+        case "Backspace":
+            delBtn.click();
+            break;
+        case "Escape":
+            acBtn.click();
+            break;
+    }
+});
+
 updateNumber();
