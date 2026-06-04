@@ -68,6 +68,12 @@ function divide(){
         a.value = 0;
         a.symbol = "+"
         b.symbol = "+";
+
+        setTimeout(() => { screen.textContent = "💥 self destructing in 3..."; updateFontSize(); }, 1000);
+        setTimeout(() => { screen.textContent = "2..."; updateFontSize(); }, 2000);
+        setTimeout(() => { screen.textContent = "1..."; updateFontSize(); }, 3000);
+        setTimeout(() => { screen.textContent = "jk lol"; updateFontSize(); }, 4000);
+        setTimeout(() => { acBtn.click(); }, 5000);
     } else {
         a.value = roundResult(parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value));
         normalizeSign(a);
