@@ -13,7 +13,7 @@ let b = {
 let operator = "";
 
 function add(){
-    a.value = (parseFloat(a.symbol + a.value) + parseFloat(b.symbol + b.value)).toFixed(2);
+    a.value = roundResult(parseFloat(a.symbol + a.value) + parseFloat(b.symbol + b.value));
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -27,7 +27,7 @@ function add(){
 }
 
 function subtract(){
-    a.value = (parseFloat(a.symbol + a.value) - parseFloat(b.symbol + b.value)).toFixed(2);
+    a.value = roundResult(parseFloat(a.symbol + a.value) - parseFloat(b.symbol + b.value));
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -41,7 +41,7 @@ function subtract(){
 }
 
 function multiply(){
-    a.value = (parseFloat(a.symbol + a.value) * parseFloat(b.symbol + b.value)).toFixed(2);
+    a.value = roundResult(parseFloat(a.symbol + a.value) * parseFloat(b.symbol + b.value));
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -69,7 +69,7 @@ function divide(){
         a.symbol = "+"
         b.symbol = "+";
     } else {
-        a.value = (parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value)).toFixed(2);
+        a.value = roundResult(parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value));
         normalizeSign(a);
         b.symbol = "+";
         a.shown = false;
@@ -100,20 +100,28 @@ function operate() {
 function updateScreen(){
     const screen = document.querySelector(".input-output");
 
-    if (!a.shown){
-        if (a.symbol === "-") {
-            screen.textContent = parseFloat(a.symbol + a.value);
-        } else {
-            screen.textContent = parseFloat(a.value);
+    function formatValue(symbol, value) {
+        const displayed = parseFloat(symbol + value);
+        const str = value.toString();
+        if (str.includes('.')) {
+            const trailingZeros = str.replace(/.*\./, '').match(/0+$/);
+            const endsWithDot = str.endsWith('.');
+            if (endsWithDot) return displayed.toString() + '.';
+            else if (trailingZeros) {
+                const hasDot = displayed.toString().includes('.');
+                return displayed.toString() + (hasDot ? '' : '.') + trailingZeros[0];
+            }
+            else return displayed.toString();
         }
+        return displayed.toString();
+    }
+
+    if (!a.shown){
+        screen.textContent = formatValue(a.symbol, a.value);
         a.shown = true;
         updateFontSize();
     } else {
-        if (b.symbol === "-") {
-            screen.textContent = parseFloat(b.symbol + b.value);
-        } else {
-            screen.textContent = parseFloat(b.value);
-        }
+        screen.textContent = formatValue(b.symbol, b.value);
         b.shown = true;
         updateFontSize();
     }
@@ -245,22 +253,21 @@ symbolBtn.addEventListener("click", () => {
 
 pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
-    const screen = document.querySelector('.input-output');
     if(!event.target.classList.contains("active")) {
         if(!a.done && a.canBeOverWritten) {
             a.value = "0.";
             a.symbol = "+";
             a.canBeOverWritten = false;
-            screen.textContent = a.value;
-            updateFontSize();
+            a.shown = false;
+            updateScreen();
         } else if(!a.done) {
             a.value = parseInt(a.value) + ".";
-            screen.textContent = a.value;
-            updateFontSize();
+            a.shown = false;
+            updateScreen();
         } else {
-            b.value = parseInt(b.value) + "."; // 👈 was a.value
-            screen.textContent = b.value;
-            updateFontSize();
+            b.value = parseInt(b.value) + ".";
+            b.shown = false;
+            updateScreen();
         }
 
         event.target.classList.add("active");
@@ -274,6 +281,14 @@ function normalizeSign(obj) {
     } else {
         obj.symbol = "+";
     }
+}
+
+function roundResult(value) {
+    const str = value.toString();
+    if (str.includes('.') && str.split('.')[1].length > 10) {
+        return parseFloat(value.toFixed(10));
+    }
+    return value;
 }
 
 updateNumber();
