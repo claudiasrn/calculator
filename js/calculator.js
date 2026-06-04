@@ -12,6 +12,8 @@ let b = {
 
 let operator = "";
 
+let isCountingDown = false;
+
 function add(){
     a.value = roundResult(parseFloat(a.symbol + a.value) + parseFloat(b.symbol + b.value));
     a.shown = false;
@@ -61,6 +63,7 @@ function divide(){
     b.done = false;
 
     if(parseInt(b.value) === 0){
+        isCountingDown = true;
         const screen = document.querySelector(".input-output");
         screen.textContent = "The universe said no";
         a.shown = true;
@@ -73,7 +76,7 @@ function divide(){
         setTimeout(() => { screen.textContent = "2..."; updateFontSize(); }, 2000);
         setTimeout(() => { screen.textContent = "1..."; updateFontSize(); }, 3000);
         setTimeout(() => { screen.textContent = "jk lol"; updateFontSize(); }, 4000);
-        setTimeout(() => { acBtn.click(); }, 5000);
+        setTimeout(() => { isCountingDown = false; acBtn.click(); }, 5000);
     } else {
         a.value = roundResult(parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value));
         normalizeSign(a);
@@ -141,6 +144,7 @@ function updateNumber(){
 
     for (const btn of digitBtns) {
         btn.addEventListener("click", (event) => {
+            if (isCountingDown) return;
             if (!a.done && !a.canBeOverWritten && a.value.toString().replace('.', '').length >= 12) return;
             if (a.done && b.value.toString().replace('.', '').length >= 12) return;
 
@@ -167,6 +171,7 @@ function updateNumber(){
 operatorBtns = document.querySelectorAll(".operator");
 for (const btn of operatorBtns) {
     btn.addEventListener("click", (event) => {
+        if (isCountingDown) return;
         if(a.done === true && b.shown === true) {
             b.done = true;
             pointBtn = document.querySelector(".point");
@@ -185,6 +190,7 @@ for (const btn of operatorBtns) {
 
 equalBtn = document.querySelector(".equal");
 equalBtn.addEventListener("click", () => {
+    if (isCountingDown) return;
     if(operator === "" || !b.shown) return;
     b.done = true;
     pointBtn = document.querySelector(".point");
@@ -204,6 +210,7 @@ function updateFontSize() {
 
 acBtn = document.querySelector(".all-clear");
 acBtn.addEventListener("click", () => {
+    if (isCountingDown) return;
     a.value = 0;
     a.symbol = "";
     a.done = false;
@@ -230,6 +237,7 @@ acBtn.addEventListener("click", () => {
 
 symbolBtn = document.querySelector(".symbol");
 symbolBtn.addEventListener("click", () => {
+    if (isCountingDown) return;
     if (!a.done && a.canBeOverWritten) {
         a.value = 0;
         a.canBeOverWritten = false;
@@ -267,6 +275,7 @@ symbolBtn.addEventListener("click", () => {
 
 pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
+    if (isCountingDown) return;
     if(!event.target.classList.contains("active")) {
         if(!a.done && a.canBeOverWritten) {
             a.value = "0.";
