@@ -21,6 +21,7 @@ function add(){
     b.shown = false;
     b.done = false;
     updateScreen();
+    operator = "";
 }
 
 function subtract(){
@@ -32,6 +33,7 @@ function subtract(){
     b.shown = false;
     b.done = false;
     updateScreen();
+    operator = "";
 }
 
 function multiply(){
@@ -43,6 +45,7 @@ function multiply(){
     b.shown = false;
     b.done = false;
     updateScreen();
+    operator = "";
 }
 
 function divide(){
@@ -64,6 +67,7 @@ function divide(){
     }
 
     b.value = 0;
+    operator = "";
 }
 
 function operate() {
@@ -135,6 +139,7 @@ for (const btn of operatorBtns) {
 
 equalBtn = document.querySelector(".equal");
 equalBtn.addEventListener("click", () => {
+    if(operator === "" || !b.shown) return;
     b.done = true;
     operate();
 })
