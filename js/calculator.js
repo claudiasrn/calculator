@@ -13,7 +13,7 @@ let b = {
 let operator = "";
 
 function add(){
-    a.value = parseInt(a.symbol + a.value) + parseInt(b.symbol + b.value);
+    a.value = (parseFloat(a.symbol + a.value) + parseFloat(b.symbol + b.value)).toFixed(2);
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -27,7 +27,7 @@ function add(){
 }
 
 function subtract(){
-    a.value = parseInt(a.symbol + a.value) - parseInt(b.symbol + b.value);
+    a.value = (parseFloat(a.symbol + a.value) - parseFloat(b.symbol + b.value)).toFixed(2);
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -41,7 +41,7 @@ function subtract(){
 }
 
 function multiply(){
-    a.value = parseInt(a.symbol + a.value) * parseInt(b.symbol + b.value);
+    a.value = (parseFloat(a.symbol + a.value) * parseFloat(b.symbol + b.value)).toFixed(2);
     a.shown = false;
     a.done = false;
     a.canBeOverWritten = true;
@@ -67,7 +67,7 @@ function divide(){
         updateFontSize();
         a.value = 0;
     } else {
-        a.value = parseInt(a.symbol + a.value) / parseInt(b.symbol + b.value);
+        a.value = (parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value)).toFixed(2);
         a.symbol = "+";
         b.symbol = "+";
         a.shown = false;
@@ -102,17 +102,17 @@ function updateScreen(){
 
     if (!a.shown){
         if (a.symbol === "-") {
-            screen.textContent = parseInt(a.symbol + a.value);
+            screen.textContent = parseFloat(a.symbol + a.value);
         } else {
-            screen.textContent = parseInt(a.value);
+            screen.textContent = parseFloat(a.value);
         }
         a.shown = true;
         updateFontSize();
     } else {
         if (b.symbol === "-") {
-            screen.textContent = parseInt(b.symbol + b.value);
+            screen.textContent = parseFloat(b.symbol + b.value);
         } else {
-            screen.textContent = parseInt(b.value);
+            screen.textContent = parseFloat(b.value);
         }
         b.shown = true;
         updateFontSize();
@@ -148,10 +148,14 @@ for (const btn of operatorBtns) {
     btn.addEventListener("click", (event) => {
         if(a.done === true && b.shown === true) {
             b.done = true;
+            pointBtn = document.querySelector(".point");
+            pointBtn.classList.remove('active'); 
             operate();
         }
         operator = event.target.textContent;
         a.done = true;
+        pointBtn = document.querySelector(".point");
+        pointBtn.classList.remove('active'); 
     })
 }
 
@@ -159,16 +163,18 @@ equalBtn = document.querySelector(".equal");
 equalBtn.addEventListener("click", () => {
     if(operator === "" || !b.shown) return;
     b.done = true;
+    pointBtn = document.querySelector(".point");
+    pointBtn.classList.remove('active'); 
     operate();
 })
 
 function updateFontSize() {
-    const display = document.querySelector('.input-output');
-    const length = display.textContent.length;
+    const screen = document.querySelector('.input-output');
+    const length = screen.textContent.length;
 
-    if (length > 10) display.style.fontSize = '30px';
-    else if (length > 7) display.style.fontSize = '50px';
-    else display.style.fontSize = '70px';
+    if (length > 10) screen.style.fontSize = '30px';
+    else if (length > 7) screen.style.fontSize = '50px';
+    else screen.style.fontSize = '70px';
 }
 
 acBtn = document.querySelector(".all-clear");
@@ -191,15 +197,13 @@ acBtn.addEventListener("click", () => {
     b.symbol = "+";
 
     operator = "";
+
+    pointBtn = document.querySelector(".point");
+    pointBtn.classList.remove('active'); 
 })
 
 symbolBtn = document.querySelector(".symbol");
 symbolBtn.addEventListener("click", () => {
-    console.log(
-    "a:", a.value, a.symbol, a.done, a.shown, a.canBeOverWritten,
-    "b:", b.value, b.symbol, b.done, b.shown,
-    "operator:", operator
-);
     if (!a.done ) {
         switch(a.symbol) {
             case "-": 
@@ -226,6 +230,23 @@ symbolBtn.addEventListener("click", () => {
                 updateScreen();
                 break;
         }
+    }
+})
+
+pointBtn = document.querySelector(".point");
+pointBtn.addEventListener("click", (event) => {
+    const screen = document.querySelector('.input-output');
+    if(!event.target.classList.contains("active")) {
+        if(!a.done) {
+            a.value += ".";
+            screen.textContent = a.value;
+
+        } else {
+            b.value += ".";
+            screen.textContent = b.value;
+        }
+
+        event.target.classList.add("active");
     }
 })
 
