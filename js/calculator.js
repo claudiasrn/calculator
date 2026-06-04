@@ -160,6 +160,9 @@ function updateNumber(){
                 a.shown = false;
                 updateScreen();
             } else {
+                if (b.value === 0 || b.value === "0") {
+                    operatorBtns.forEach(btn => btn.classList.remove('active'));
+                }
                 b.value += event.target.textContent;
                 b.shown = false;
                 updateScreen();
