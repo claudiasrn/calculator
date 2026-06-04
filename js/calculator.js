@@ -1,37 +1,151 @@
-let a = 0;
-let b = 0;
-let operand = "";
+let a = {
+    value: 0,
+    symbol: "",
+    done: false,
+    shown: false,
+    canBeOverWritten: false};
+let b = {
+    value: 0,
+    symbol: "",
+    done: false,
+    shown: false};
 
-function add(a, b){
-    return a + b;
+let operator = "";
+
+function add(){
+    a.value = parseInt(a.value) + parseInt(b.value);
+    a.shown = false;
+    a.done = false;
+    a.canBeOverWritten = true;
+    b.value = 0;
+    b.shown = false;
+    b.done = false;
+    updateScreen();
 }
 
-function subtract(a, b){
-    return a - b;
+function subtract(){
+    a.value = parseInt(a.value) - parseInt(b.value);
+    a.shown = false;
+    a.done = false;
+    a.canBeOverWritten = true;
+    b.value = 0;
+    b.shown = false;
+    b.done = false;
+    updateScreen();
 }
 
-function multiply(a, b){
-    return a * b;
+function multiply(){
+    a.value = parseInt(a.value) * parseInt(b.value);
+    a.shown = false;
+    a.done = false;
+    a.canBeOverWritten = true;
+    b.value = 0;
+    b.shown = false;
+    b.done = false;
+    updateScreen();
 }
 
-function divide(dividend, divisor){
-    if(divisor === 0) return "The universe said no";
-    return dividend / divisor;
+function divide(){
+    a.done = false;
+    a.canBeOverWritten = true;
+    b.shown = false;
+    b.done = false;
+
+    if(parseInt(b.value) === 0){
+        const screen = document.querySelector(".input-output");
+        screen.textContent = "The universe said no";
+        a.shown = true;
+        updateFontSize();
+        a.value = 0;
+    } else {
+        a.value = parseInt(a.value) / parseInt(b.value);
+        a.shown = false;
+        updateScreen();
+    }
+
+    b.value = 0;
 }
 
 function operate() {
-    switch(operand) {
+    switch(operator) {
         case "+":
-            add(a, b);
+            add();
             break;
         case "-":
-            subtract(a, b);
+            subtract();
             break;
         case "x":
-            multiply(a, b);
+            multiply();
             break;
         case "÷":
-            divide(a, b);
+            divide();
             break;
     }
 }
+
+function updateScreen(){
+    const screen = document.querySelector(".input-output");
+
+    if (!a.shown){
+        screen.textContent = parseInt(a.value);
+        a.shown = true;
+        updateFontSize();
+    } else {
+        screen.textContent = parseInt(b.value);
+        b.shown = true;
+        updateFontSize();
+    }
+}
+
+function updateNumber(){
+    digitBtns = document.querySelectorAll(".number");
+
+    for (const btn of digitBtns) {
+        btn.addEventListener("click", (event) => {
+            if(!a.done && !a.canBeOverWritten) {
+                a.value += event.target.textContent;
+                a.shown = false;
+                updateScreen();
+            } else if (!a.done && a.canBeOverWritten){
+                a.value = 0;
+                a.canBeOverWritten = false;
+                a.value += event.target.textContent;
+                a.shown = false;
+                updateScreen();
+            } else {
+                b.value += event.target.textContent;
+                b.shown = false;
+                updateScreen();
+            }
+        })
+    }
+}
+
+operatorBtns = document.querySelectorAll(".operator");
+for (const btn of operatorBtns) {
+    btn.addEventListener("click", (event) => {
+        if(a.done === true && b.shown === true) {
+            b.done = true;
+            operate();
+        }
+        operator = event.target.textContent;
+        a.done = true;
+    })
+}
+
+equalBtn = document.querySelector(".equal");
+equalBtn.addEventListener("click", () => {
+    b.done = true;
+    operate();
+})
+
+function updateFontSize() {
+    const display = document.querySelector('.input-output');
+    const length = display.textContent.length;
+
+    if (length > 10) display.style.fontSize = '30px';
+    else if (length > 7) display.style.fontSize = '50px';
+    else display.style.fontSize = '70px';
+}
+
+updateNumber();

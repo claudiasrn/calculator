@@ -29,8 +29,9 @@ body {
 }
 
 .input-output {
-    margin: 10px;
+    margin: 20px;
     font-size: 70px;
+    flex-shrink: 5;
 }
 
 .main-buttons {
@@ -64,7 +65,9 @@ button.active {
     outline: 3px solid #4a2a35;
 }
 
-.number {
+.number,
+.symbol,
+.point{
     background-color: #e8a0a0;
 }
 
