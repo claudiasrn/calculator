@@ -108,26 +108,6 @@ function operate() {
 
 function updateScreen(){
     const screen = document.querySelector(".input-output");
-
-    function formatValue(symbol, value) {
-        const displayed = parseFloat(symbol + value);
-        const str = value.toString();
-        const displayedStr = displayed.toString().includes('e') 
-            ? displayed.toFixed(20).replace(/\.?0+$/, '') 
-            : displayed.toString();
-        if (str.includes('.')) {
-            const trailingZeros = str.replace(/.*\./, '').match(/0+$/);
-            const endsWithDot = str.endsWith('.');
-            if (endsWithDot) return displayedStr + '.';
-            else if (trailingZeros) {
-                const hasDot = displayedStr.includes('.');
-                return displayedStr + (hasDot ? '' : '.') + trailingZeros[0];
-            }
-            else return displayedStr;
-        }
-        return displayedStr;
-    }
-
     if (!a.shown){
         screen.textContent = formatValue(a.symbol, a.value);
         a.shown = true;
@@ -140,7 +120,7 @@ function updateScreen(){
 }
 
 function updateNumber(){
-    digitBtns = document.querySelectorAll(".number");
+    const digitBtns = document.querySelectorAll(".number");
 
     for (const btn of digitBtns) {
         btn.addEventListener("click", (event) => {
@@ -171,7 +151,7 @@ function updateNumber(){
     }
 }
 
-operatorBtns = document.querySelectorAll(".operator");
+const operatorBtns = document.querySelectorAll(".operator");
 for (const btn of operatorBtns) {
     btn.addEventListener("click", (event) => {
         if (isCountingDown) return;
@@ -191,7 +171,7 @@ for (const btn of operatorBtns) {
     })
 }
 
-equalBtn = document.querySelector(".equal");
+const equalBtn = document.querySelector(".equal");
 equalBtn.addEventListener("click", () => {
     if (isCountingDown) return;
     if(operator === "" || !b.shown) return;
@@ -211,11 +191,10 @@ function updateFontSize() {
     else screen.style.fontSize = '70px';
 }
 
-acBtn = document.querySelector(".all-clear");
+const acBtn = document.querySelector(".all-clear");
 acBtn.addEventListener("click", () => {
     if (isCountingDown) return;
     a.value = 0;
-    a.symbol = "";
     a.done = false;
     a.shown = true;
     a.canBeOverWritten = false;
@@ -226,7 +205,6 @@ acBtn.addEventListener("click", () => {
     updateFontSize();
 
     b.value = 0;
-    b.symbol = "";
     b.done = false;
     b.shown = false;
     b.symbol = "+";
@@ -238,7 +216,7 @@ acBtn.addEventListener("click", () => {
     operatorBtns.forEach(btn => btn.classList.remove('active')); 
 })
 
-symbolBtn = document.querySelector(".symbol");
+const symbolBtn = document.querySelector(".symbol");
 symbolBtn.addEventListener("click", () => {
     if (isCountingDown) return;
     if (!a.done && a.canBeOverWritten) {
@@ -276,7 +254,7 @@ symbolBtn.addEventListener("click", () => {
     }
 });
 
-pointBtn = document.querySelector(".point");
+const pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
     if (isCountingDown) return;
     if(!event.target.classList.contains("active")) {
@@ -317,7 +295,26 @@ function roundResult(value) {
     return value;
 }
 
-delBtn = document.querySelector(".delete");
+function formatValue(symbol, value) {
+    const displayed = parseFloat(symbol + value);
+    const str = value.toString();
+    const displayedStr = displayed.toString().includes('e') 
+        ? displayed.toFixed(20).replace(/\.?0+$/, '') 
+        : displayed.toString();
+    if (str.includes('.')) {
+        const trailingZeros = str.replace(/.*\./, '').match(/0+$/);
+        const endsWithDot = str.endsWith('.');
+        if (endsWithDot) return displayedStr + '.';
+        else if (trailingZeros) {
+            const hasDot = displayedStr.includes('.');
+            return displayedStr + (hasDot ? '' : '.') + trailingZeros[0];
+        }
+        else return displayedStr;
+    }
+    return displayedStr;
+}
+
+const delBtn = document.querySelector(".delete");
 delBtn.addEventListener("click", () => {
     if (isCountingDown) return;
 
