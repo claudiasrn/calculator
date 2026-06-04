@@ -167,7 +167,10 @@ for (const btn of operatorBtns) {
         operator = event.target.textContent;
         a.done = true;
         pointBtn = document.querySelector(".point");
-        pointBtn.classList.remove('active'); 
+        pointBtn.classList.remove('active');
+
+        operatorBtns.forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
     })
 }
 
@@ -177,6 +180,7 @@ equalBtn.addEventListener("click", () => {
     b.done = true;
     pointBtn = document.querySelector(".point");
     pointBtn.classList.remove('active'); 
+    operatorBtns.forEach(btn => btn.classList.remove('active'));
     operate();
 })
 
@@ -211,7 +215,8 @@ acBtn.addEventListener("click", () => {
     operator = "";
 
     pointBtn = document.querySelector(".point");
-    pointBtn.classList.remove('active'); 
+    pointBtn.classList.remove('active');
+    operatorBtns.forEach(btn => btn.classList.remove('active')); 
 })
 
 symbolBtn = document.querySelector(".symbol");
