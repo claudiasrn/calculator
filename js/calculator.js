@@ -2,7 +2,7 @@ let a = {
     value: 0,
     symbol: "",
     done: false,
-    shown: false,
+    shown: true,
     canBeOverWritten: false};
 let b = {
     value: 0,
@@ -152,5 +152,25 @@ function updateFontSize() {
     else if (length > 7) display.style.fontSize = '50px';
     else display.style.fontSize = '70px';
 }
+
+acBtn = document.querySelector(".all-clear");
+acBtn.addEventListener("click", () => {
+    a.value = 0;
+    a.symbol = "";
+    a.done = false;
+    a.shown = true;
+    a.canBeOverWritten = false;
+    
+    const screen = document.querySelector(".input-output");
+    screen.textContent = 0;
+    updateFontSize();
+
+    b.value = 0;
+    b.symbol = "";
+    b.done = false;
+    b.shown = false;
+
+    operator = "";
+})
 
 updateNumber();
