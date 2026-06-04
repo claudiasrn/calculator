@@ -247,20 +247,25 @@ pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
     const screen = document.querySelector('.input-output');
     if(!event.target.classList.contains("active")) {
-        if(!a.done) {
+        if(!a.done && a.canBeOverWritten) {
+            a.value = "0.";
+            a.symbol = "+";
+            a.canBeOverWritten = false;
+            screen.textContent = a.value;
+            updateFontSize();
+        } else if(!a.done) {
             a.value = parseInt(a.value) + ".";
             screen.textContent = a.value;
             updateFontSize();
-
         } else {
-            b.value = parseInt(a.value) + ".";
+            b.value = parseInt(b.value) + "."; // 👈 was a.value
             screen.textContent = b.value;
             updateFontSize();
         }
 
         event.target.classList.add("active");
     }
-})
+});
 
 function normalizeSign(obj) {
     if (parseInt(obj.value) < 0) {
