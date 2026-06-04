@@ -317,4 +317,42 @@ function roundResult(value) {
     return value;
 }
 
+delBtn = document.querySelector(".delete");
+delBtn.addEventListener("click", () => {
+    if (isCountingDown) return;
+
+    if (a.canBeOverWritten) {
+        acBtn.click();
+        return;
+    }
+
+    if (!a.done) {
+        const str = a.value.toString();
+        if (str.length <= 1) {
+            a.value = 0;
+            a.symbol = "+";
+        } else {
+            a.value = str.slice(0, -1);
+        }
+        if (!a.value.toString().includes('.')) {
+            pointBtn.classList.remove('active');
+        }
+        a.shown = false;
+        updateScreen();
+    } else {
+        const str = b.value.toString();
+        if (str.length <= 1) {
+            b.value = 0;
+            b.symbol = "+";
+        } else {
+            b.value = str.slice(0, -1);
+        }
+        if (!b.value.toString().includes('.')) {
+            pointBtn.classList.remove('active');
+        }
+        b.shown = false;
+        updateScreen();
+    }
+});
+
 updateNumber();
