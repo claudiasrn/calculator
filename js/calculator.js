@@ -208,8 +208,14 @@ acBtn.addEventListener("click", () => {
 
 symbolBtn = document.querySelector(".symbol");
 symbolBtn.addEventListener("click", () => {
-    if (!a.done ) {
-        switch(a.symbol) {
+    if (!a.done && a.canBeOverWritten) {
+        a.value = 0;
+        a.canBeOverWritten = false;
+        a.symbol = "-";
+        a.shown = false;
+        updateScreen(); 
+    }else if (!a.done){
+            switch(a.symbol) {
             case "-": 
                 a.symbol = "+";
                 a.shown = false;
@@ -235,7 +241,7 @@ symbolBtn.addEventListener("click", () => {
                 break;
         }
     }
-})
+});
 
 pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
