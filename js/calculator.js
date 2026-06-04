@@ -326,6 +326,13 @@ delBtn.addEventListener("click", () => {
         return;
     }
 
+    if (a.done && !b.shown) {
+        operator = "";
+        a.done = false;
+        operatorBtns.forEach(btn => btn.classList.remove('active'));
+        return;
+    }
+
     if (!a.done) {
         const str = a.value.toString();
         if (str.length <= 1) {
