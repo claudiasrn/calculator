@@ -59,6 +59,7 @@ function multiply(){
 }
 
 function divide(){
+    console.log(a.symbol, a.value, b.symbol, b.value);
     a.done = false;
     a.canBeOverWritten = true;
     b.shown = false;
@@ -81,10 +82,13 @@ function divide(){
         setTimeout(() => { isCountingDown = false; acBtn.click(); }, 5000);
     } else {
         a.value = roundResult(parseFloat(a.symbol + a.value) / parseFloat(b.symbol + b.value));
+        console.log(a.symbol, a.value, b.symbol, b.value);
         normalizeSign(a);
+        console.log(a.symbol, a.value, b.symbol, b.value);
         b.symbol = "+";
         a.shown = false;
         updateScreen();
+        console.log(a.symbol, a.value, b.symbol, b.value);
     }
 
     b.value = 0;
@@ -276,7 +280,7 @@ pointBtn.addEventListener("click", (event) => {
 });
 
 function normalizeSign(obj) {
-    if (parseInt(obj.value) < 0) {
+    if (parseFloat(obj.value) < 0) {
         obj.symbol = "-";
         obj.value = Math.abs(parseFloat(obj.value));
     } else {
