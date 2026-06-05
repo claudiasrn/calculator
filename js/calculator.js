@@ -14,6 +14,8 @@ let operator = "";
 
 let isCountingDown = false;
 
+const acBtn = document.querySelector(".all-clear");
+
 function add(){
     a.value = roundResult(parseFloat(a.symbol + a.value) + parseFloat(b.symbol + b.value));
     a.shown = false;
@@ -119,8 +121,8 @@ function updateScreen(){
     }
 }
 
+const digitBtns = document.querySelectorAll(".number");
 function updateNumber(){
-    const digitBtns = document.querySelectorAll(".number");
 
     for (const btn of digitBtns) {
         btn.addEventListener("click", (event) => {
@@ -152,18 +154,17 @@ function updateNumber(){
 }
 
 const operatorBtns = document.querySelectorAll(".operator");
+const pointBtn = document.querySelector(".point");
 for (const btn of operatorBtns) {
     btn.addEventListener("click", (event) => {
         if (isCountingDown) return;
         if(a.done === true && b.shown === true) {
             b.done = true;
-            pointBtn = document.querySelector(".point");
             pointBtn.classList.remove('active'); 
             operate();
         }
         operator = event.target.textContent;
         a.done = true;
-        pointBtn = document.querySelector(".point");
         pointBtn.classList.remove('active');
 
         operatorBtns.forEach(b => b.classList.remove('active'));
@@ -176,7 +177,6 @@ equalBtn.addEventListener("click", () => {
     if (isCountingDown) return;
     if(operator === "" || !b.shown) return;
     b.done = true;
-    pointBtn = document.querySelector(".point");
     pointBtn.classList.remove('active'); 
     operatorBtns.forEach(btn => btn.classList.remove('active'));
     operate();
@@ -191,7 +191,6 @@ function updateFontSize() {
     else screen.style.fontSize = '70px';
 }
 
-const acBtn = document.querySelector(".all-clear");
 acBtn.addEventListener("click", () => {
     if (isCountingDown) return;
     a.value = 0;
@@ -211,7 +210,6 @@ acBtn.addEventListener("click", () => {
 
     operator = "";
 
-    pointBtn = document.querySelector(".point");
     pointBtn.classList.remove('active');
     operatorBtns.forEach(btn => btn.classList.remove('active')); 
 })
@@ -254,7 +252,6 @@ symbolBtn.addEventListener("click", () => {
     }
 });
 
-const pointBtn = document.querySelector(".point");
 pointBtn.addEventListener("click", (event) => {
     if (isCountingDown) return;
     if(!event.target.classList.contains("active")) {
